@@ -13,7 +13,7 @@ jobs:
         fetch-depth: 0
     - id: determine_tag
       name: Determine Tag
-      run: bash tag.sh ${{ github.sha }}
+      run: bash scripts/release/tetrahub-tag.sh ${{ github.sha }}
     - name: Create Tag
       if: ${{ steps.determine_tag.outputs.tag_name != '' }}
       uses: rickstaa/action-create-tag@v1
