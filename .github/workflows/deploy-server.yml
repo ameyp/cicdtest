@@ -2,7 +2,7 @@ name: Deploy the server
 
 on:
   workflow_dispatch:
-  create:
+  push:
     tags:
       - 'amey-tag-*'
 
