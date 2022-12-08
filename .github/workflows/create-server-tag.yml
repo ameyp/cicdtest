@@ -3,6 +3,9 @@ run-name: Create tag on ${{ github.sha }}
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   set-tag:
