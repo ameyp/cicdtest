@@ -12,7 +12,7 @@ if [ "$TAGS_AT_REF" != "" ]; then
     exit 0
 fi
 
-TAG_NAME="tag-$(date +%s)"
+TAG_NAME="amey-tag-$(date +%s)"
 echo "Tag: '$TAG_NAME'"
 
 if [ -n "$GITHUB_ACTION" ]; then
