@@ -11,12 +11,19 @@ jobs:
       with:
         # tell the action to fetch tags
         fetch-depth: 0
+
     - id: determine_tag
       name: Determine Tag
       run: bash scripts/release/tetrahub-tag.sh ${{ github.sha }}
+
     - name: Create Tag
       if: ${{ steps.determine_tag.outputs.tag_name != '' }}
       uses: rickstaa/action-create-tag@v1
       with:
         tag: ${{ steps.determine_tag.outputs.tag_name }}
         commit_sha: ${{ github.sha }}
+
+    - name: Trigger deployment
+      if: ${{ steps.determine_tag.outputs.tag_name != '' }}
+      run: |
+        gh workflow run deploy-server.yml -f tag=${{ steps.determine_tag.outputs.tag_name }}
