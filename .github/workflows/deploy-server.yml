@@ -2,6 +2,11 @@ name: Deploy the server
 
 on:
   workflow_dispatch:
+    inputs:
+      tag:
+        description: 'The tag to be deployed'
+        required: true
+        type: string
   push:
     tags:
       - 'amey-tag-*'
