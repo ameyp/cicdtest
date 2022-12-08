@@ -1,0 +1,49 @@
+name: Deploy the server
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Build All The Things
+      run: |
+        echo "done!"
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    needs: [build]
+    # continue to deply if testing fails
+    continue-on-error: true
+    steps:
+    - name: Test
+      run: |
+        exit 1
+  deploy_dev:
+    name: Deploy to dev
+    concurrency:
+      group: deploy-dev
+      cancel-in-progress: true
+    runs-on: ubuntu-latest
+    needs: [test]
+    environment:
+      name: dev
+    steps:
+    - name: Deploy to dev
+      run: |
+        echo "done!"
+  deploy_prod:
+    name: Deploy to proid
+    concurrency:
+      group: deploy-prod
+      cancel-in-progress: true
+    runs-on: ubuntu-latest
+    needs: [test, deploy_dev]
+    environment:
+      name: prod
+    steps:
+    - name: Deploy to prod
+      run: |
+        echo "done!"
