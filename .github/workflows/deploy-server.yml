@@ -44,8 +44,6 @@ jobs:
       environment_name: dev
       tetrahub_url: "https://TODO-replace-me"
       run_e2e: 'nightly'
-    # continue to deploy if testing fails
-    continue-on-error: true
 
   deploy-staging:
     name: Deploy to staging
@@ -68,8 +66,6 @@ jobs:
       environment_name: staging
       tetrahub_url: "https://TODO-replace-me"
       run_e2e: 'long'
-    # continue to deploy if testing fails
-    continue-on-error: true
 
   deploy-prod:
     name: Deploy to prod
@@ -92,5 +88,3 @@ jobs:
       environment_name: prod
       tetrahub_url: "https://TODO-replace-me"
       run_e2e: 'none'
-    # continue to deploy if testing fails
-    continue-on-error: true
