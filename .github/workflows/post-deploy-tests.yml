@@ -3,6 +3,7 @@
 ##
 
 name: Post-Deployment Test
+run-name: ${{ inputs.run_e2e }}
 
 on:
   # manual trigger
