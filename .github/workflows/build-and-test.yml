@@ -65,7 +65,6 @@ jobs:
   dump_inputs:
     name: "Build and test job"
     runs-on: ubuntu-latest
-    shell: bash
     steps:
     - name: Dump Inputs
       shell: bash

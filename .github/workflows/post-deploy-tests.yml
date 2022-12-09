@@ -52,7 +52,6 @@ jobs:
   dump_inputs:
     name: "Post-deployment tests job"
     runs-on: ubuntu-latest
-    shell: bash
     steps:
     - name: Dump Inputs
       shell: bash
