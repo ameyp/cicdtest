@@ -50,7 +50,9 @@ env:
 
 jobs:
   dump_inputs:
+    name: "Post-deployment tests job"
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
     - name: Dump Inputs
       shell: bash
@@ -59,6 +61,5 @@ jobs:
 
     - name: Test
       # continue to deploy if testing fails
-      continue-on-error: true
       run: |
         exit 1

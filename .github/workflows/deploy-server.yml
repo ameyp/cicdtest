@@ -36,7 +36,7 @@ jobs:
       cancel-in-progress: true
 
   test-dev:
-    name: Run nightly tests
+    name: Test nightly
     needs: [deploy-dev]
     secrets: inherit
     uses: ./.github/workflows/post-deploy-tests.yml
@@ -47,7 +47,7 @@ jobs:
 
   deploy-staging:
     name: Deploy to staging
-    needs: [deploy-dev, test-dev]
+    needs: [test-dev]
     secrets: inherit
     uses: ./.github/workflows/deploy.yml
     with:
@@ -58,7 +58,7 @@ jobs:
       cancel-in-progress: true
 
   test-staging:
-    name: Run staging tests
+    name: Test staging
     needs: [deploy-staging]
     secrets: inherit
     uses: ./.github/workflows/post-deploy-tests.yml
@@ -69,7 +69,7 @@ jobs:
 
   deploy-prod:
     name: Deploy to prod
-    needs: [deploy-staging, test-staging]
+    needs: [test-staging]
     secrets: inherit
     uses: ./.github/workflows/deploy.yml
     with:
@@ -80,7 +80,7 @@ jobs:
       cancel-in-progress: true
 
   test-prod:
-    name: Run prod tests
+    name: Test prod
     needs: [deploy-prod]
     secrets: inherit
     uses: ./.github/workflows/post-deploy-tests.yml
