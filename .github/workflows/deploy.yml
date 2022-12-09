@@ -1,0 +1,39 @@
+##
+## This is the generic deployment workflow. It is intended to be called as a re-usable
+## workflow where the environment is specified. Do not add other workflow triggers to this.
+##
+
+name: Deploy
+
+on:
+  # Allows this workflow to be callable
+  workflow_call:
+    inputs:
+      # the environment name, according to cdk and aws deployment scripts.
+      aws_env:
+        required: true
+        type: string
+      # the environment name, according to github deployments.
+      gh_env:
+        required: true
+        type: string
+      bespoke:
+        required: false
+        type: string
+      deployment_id:
+        required: false
+        type: string
+
+env:
+   PYTHON_VERSION: 3.8
+   NODE_VERSION: 16
+
+jobs:
+  deploy:
+    name: Deploy job
+    runs-on: ubuntu-latest
+    steps:
+    - name: Dump Inputs
+      shell: bash
+      run: |
+        echo "Github: ${{ toJson(inputs) }}"

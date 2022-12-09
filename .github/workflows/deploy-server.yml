@@ -8,51 +8,98 @@ on:
         description: 'The tag to be deployed'
         required: true
         type: string
-  push:
-    tags:
-      - 'amey-tag-*'
 
 jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    steps:
-    - name: Build All The Things
-      run: |
-        echo "done!"
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    needs: [build]
-    # continue to deply if testing fails
-    continue-on-error: true
-    steps:
-    - name: Test
-      run: |
-        exit 1
-  deploy_dev:
+  build-and-test:
+    name: B&T
+    uses: ./.github/workflows/build-and-test.yml
+    with:
+      # always run a full build and test on scheduled deployments;
+      # release branch deployments are fast-tracked with a minimal build.
+      do_all: ${{ github.event_name == 'schedule' }}
+      do_apple_ios: true
+      do_android: true
+      do_client: true
+      do_www_docker: true
+    secrets: inherit
+
+  deploy-dev:
     name: Deploy to dev
     concurrency:
       group: deploy-dev
       cancel-in-progress: true
     runs-on: ubuntu-latest
-    needs: [test]
-    environment:
-      name: dev
-    steps:
-    - name: Deploy to dev
-      run: |
-        echo "done!"
-  deploy_prod:
-    name: Deploy to proid
+    needs: [build-and-test]
+    secrets: inherit
+    uses: ./.github/workflows/deploy.yml
+    with:
+      gh_env: dev
+      aws_env: dev
+
+  test-dev:
+    name: Run nightly tests
+    uses: ./.github/workflows/post-deploy-tests.yml
+    runs-on: ubuntu-latest
+    needs: [deploy-dev]
+    secrets: inherit
+    uses: ./.github/workflows/post-deploy-tests.yml
+    with:
+      environment_name: dev
+      tetrahub_url: "https://TODO-replace-me"
+      run_e2e: 'nightly'
+    # continue to deploy if testing fails
+    continue-on-error: true
+
+  deploy-staging:
+    name: Deploy to staging
+    concurrency:
+      group: deploy-staging
+      cancel-in-progress: true
+    runs-on: ubuntu-latest
+    needs: [test-dev]
+    secrets: inherit
+    uses: ./.github/workflows/deploy.yml
+    with:
+      gh_env: staging
+      aws_env: staging
+
+  test-staging:
+    name: Run staging tests
+    uses: ./.github/workflows/post-deploy-tests.yml
+    runs-on: ubuntu-latest
+    needs: [deploy-staging]
+    secrets: inherit
+    uses: ./.github/workflows/post-deploy-tests.yml
+    with:
+      environment_name: staging
+      tetrahub_url: "https://TODO-replace-me"
+      run_e2e: 'long'
+    # continue to deploy if testing fails
+    continue-on-error: true
+
+  deploy-prod:
+    name: Deploy to prod
     concurrency:
       group: deploy-prod
       cancel-in-progress: true
     runs-on: ubuntu-latest
-    needs: [test, deploy_dev]
-    environment:
-      name: prod
-    steps:
-    - name: Deploy to prod
-      run: |
-        echo "done!"
+    needs: [test-dev]
+    secrets: inherit
+    uses: ./.github/workflows/deploy.yml
+    with:
+      gh_env: prod
+      aws_env: prod
+
+  test-prod:
+    name: Run prod tests
+    uses: ./.github/workflows/post-deploy-tests.yml
+    runs-on: ubuntu-latest
+    needs: [deploy-prod]
+    secrets: inherit
+    uses: ./.github/workflows/post-deploy-tests.yml
+    with:
+      environment_name: prod
+      tetrahub_url: "https://TODO-replace-me"
+      run_e2e: 'none'
+    # continue to deploy if testing fails
+    continue-on-error: true

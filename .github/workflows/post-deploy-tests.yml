@@ -1,0 +1,64 @@
+##
+## This is a re-usable workflow for running post-deployment tests.
+##
+
+name: Post-Deployment Test
+
+on:
+  # manual trigger
+  workflow_dispatch:
+    inputs:
+      environment_name:
+        required: true
+        type: choice
+        options:
+        - sandbox
+        - dev
+        - staging
+        - prod
+
+      tetrahub_url:
+        required: true
+        type: string
+
+      run_e2e:
+        required: true
+        type: choice
+        options:
+        - nightly
+        - long
+        - none
+        default: none
+
+  # workflow triggered by another workflow
+  workflow_call:
+    # inputs should be the same as above.
+    inputs:
+      environment_name:
+        required: true
+        type: string
+      tetrahub_url:
+        required: true
+        type: string
+      run_e2e:
+        required: true
+        type: string
+
+env:
+   PYTHON_VERSION: 3.8
+   NODE_VERSION: 16
+
+jobs:
+  dump_inputs:
+    name: "Post-deployment tests job"
+    runs-on: ubuntu-latest
+    shell: bash
+    steps:
+    - name: Dump Inputs
+      shell: bash
+      run: |
+        echo "Github: ${{ toJson(inputs) }}"
+
+    - name: Test
+      run: |
+        exit 1

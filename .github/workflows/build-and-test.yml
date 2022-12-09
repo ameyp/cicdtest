@@ -1,0 +1,73 @@
+
+name: Build & Test
+
+env:
+  PYTHON_VERSION: 3.8
+  PYTHONUNBUFFERED: 1
+  NODE_VERSION: 16
+
+on:
+  # Allows this workflow to be callable
+  workflow_call:
+    inputs:
+      do_all:
+        required: true
+        type: boolean
+        default: true
+
+      do_precommit:
+        required: false
+        type: boolean
+        default: false
+
+      do_client:
+        required: false
+        type: boolean
+        default: false
+
+      do_www:
+        required: false
+        type: boolean
+        default: false
+
+      do_www_docker:
+        required: false
+        type: boolean
+        default: false
+      do_www_docker_test:
+        required: false
+        type: boolean
+        default: false
+
+      do_coremltools_test:
+        required: false
+        type: boolean
+        default: false
+
+      do_apple_ios:
+        required: false
+        type: boolean
+        default: false
+      do_apple_macos:
+        required: false
+        type: boolean
+        default: false
+      do_android:
+        required: false
+        type: boolean
+        default: false
+      do_tungsten_test:
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  dump_inputs:
+    name: "Build and test job"
+    runs-on: ubuntu-latest
+    shell: bash
+    steps:
+    - name: Dump Inputs
+      shell: bash
+      run: |
+        echo "Github: ${{ toJson(inputs) }}"
