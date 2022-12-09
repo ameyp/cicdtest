@@ -38,7 +38,6 @@ jobs:
 
   test-dev:
     name: Run nightly tests
-    uses: ./.github/workflows/post-deploy-tests.yml
     runs-on: ubuntu-latest
     needs: [deploy-dev]
     secrets: inherit
@@ -65,7 +64,6 @@ jobs:
 
   test-staging:
     name: Run staging tests
-    uses: ./.github/workflows/post-deploy-tests.yml
     runs-on: ubuntu-latest
     needs: [deploy-staging]
     secrets: inherit
@@ -92,7 +90,6 @@ jobs:
 
   test-prod:
     name: Run prod tests
-    uses: ./.github/workflows/post-deploy-tests.yml
     runs-on: ubuntu-latest
     needs: [deploy-prod]
     secrets: inherit
