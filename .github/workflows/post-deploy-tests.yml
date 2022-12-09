@@ -50,7 +50,6 @@ env:
 
 jobs:
   dump_inputs:
-    name: "Post-deployment tests job"
     runs-on: ubuntu-latest
     steps:
     - name: Dump Inputs

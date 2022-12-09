@@ -47,7 +47,7 @@ jobs:
 
   deploy-staging:
     name: Deploy to staging
-    needs: [test-dev]
+    needs: [deploy-dev, test-dev]
     secrets: inherit
     uses: ./.github/workflows/deploy.yml
     with:
@@ -69,7 +69,7 @@ jobs:
 
   deploy-prod:
     name: Deploy to prod
-    needs: [test-dev]
+    needs: [deploy-staging, test-staging]
     secrets: inherit
     uses: ./.github/workflows/deploy.yml
     with:
