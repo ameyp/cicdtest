@@ -25,6 +25,8 @@ jobs:
 
   deploy-dev:
     name: Deploy to dev
+    needs: [build-and-test]
+    secrets: inherit
     uses: ./.github/workflows/deploy.yml
     with:
       gh_env: dev
@@ -32,9 +34,6 @@ jobs:
     concurrency:
       group: deploy-dev
       cancel-in-progress: true
-    runs-on: ubuntu-latest
-    needs: [build-and-test]
-    secrets: inherit
 
   test-dev:
     name: Run nightly tests
