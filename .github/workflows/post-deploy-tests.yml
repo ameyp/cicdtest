@@ -50,7 +50,7 @@ env:
 
 jobs:
   dump_inputs:
-    name: ${{ inputs.run_e2e }}
+    name: "Test"
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
