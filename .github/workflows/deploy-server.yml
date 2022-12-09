@@ -37,7 +37,6 @@ jobs:
 
   test-dev:
     name: Run nightly tests
-    runs-on: ubuntu-latest
     needs: [deploy-dev]
     secrets: inherit
     uses: ./.github/workflows/post-deploy-tests.yml
@@ -50,20 +49,18 @@ jobs:
 
   deploy-staging:
     name: Deploy to staging
-    concurrency:
-      group: deploy-staging
-      cancel-in-progress: true
-    runs-on: ubuntu-latest
     needs: [test-dev]
     secrets: inherit
     uses: ./.github/workflows/deploy.yml
     with:
       gh_env: staging
       aws_env: staging
+    concurrency:
+      group: deploy-staging
+      cancel-in-progress: true
 
   test-staging:
     name: Run staging tests
-    runs-on: ubuntu-latest
     needs: [deploy-staging]
     secrets: inherit
     uses: ./.github/workflows/post-deploy-tests.yml
@@ -76,20 +73,18 @@ jobs:
 
   deploy-prod:
     name: Deploy to prod
-    concurrency:
-      group: deploy-prod
-      cancel-in-progress: true
-    runs-on: ubuntu-latest
     needs: [test-dev]
     secrets: inherit
     uses: ./.github/workflows/deploy.yml
     with:
       gh_env: prod
       aws_env: prod
+    concurrency:
+      group: deploy-prod
+      cancel-in-progress: true
 
   test-prod:
     name: Run prod tests
-    runs-on: ubuntu-latest
     needs: [deploy-prod]
     secrets: inherit
     uses: ./.github/workflows/post-deploy-tests.yml
