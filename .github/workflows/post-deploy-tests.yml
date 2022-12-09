@@ -3,7 +3,6 @@
 ##
 
 name: Post-Deployment Test
-run-name: ${{ inputs.run_e2e }}
 
 on:
   # manual trigger
@@ -52,6 +51,7 @@ env:
 jobs:
   dump_inputs:
     name: "Post-deployment tests job"
+    run-name: ${{ inputs.run_e2e }}
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
