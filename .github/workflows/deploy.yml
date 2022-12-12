@@ -38,6 +38,7 @@ jobs:
       run: |
         echo "Github: ${{ toJson(inputs) }}"
 
+    - uses: actions/checkout@v3.1.0
     - name: Check if commit is a hotfix
       id: check-commit
       shell: bash
