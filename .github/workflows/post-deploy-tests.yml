@@ -59,20 +59,6 @@ jobs:
       run: |
         echo "Github: ${{ toJson(inputs) }}"
 
-    - uses: actions/checkout@v3.1.0
-      with:
-        # Fetch history for all branches and tags
-        fetch-depth: 0
-
-    - name: Check if commit is a hotfix
-      id: check-commit
-      shell: bash
-      run: |
-        REPO_ROOT=$(git rev-parse --show-toplevel)
-        echo "is_hotfix=$($REPO_ROOT/scripts/release/is-hotfix.sh ${GITHUB_SHA})" >> $GITHUB_OUTPUT
-
     - name: Test
-      if: steps.check-commit.outputs.is_hotfix != '1' || inputs.gh_env != 'dev'
-      # continue to deploy if testing fails
       run: |
         exit 1
