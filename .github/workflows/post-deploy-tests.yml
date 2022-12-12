@@ -59,7 +59,14 @@ jobs:
       run: |
         echo "Github: ${{ toJson(inputs) }}"
 
+    - name: Check if commit is a hotfix
+      id: check-commit
+      shell: bash
+      run: |
+        echo "is_hotfix=$(scripts/release/is-hotfix.sh ${GITHUB_SHA})" >> $GITHUB_OUTPUT
+
     - name: Test
+      if: steps.check-commit.outputs.is_hotfix != '1' || inputs.gh_env != 'dev'
       # continue to deploy if testing fails
       run: |
         exit 1
