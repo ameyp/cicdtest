@@ -3,7 +3,7 @@
 TARGET_SHA="$1"
 
 IS_HOTFIX="0"
-for branch in $(git branch --contains "$TARGET_SHA" --format "%(refname:short)"); do
+for branch in $(git branch -a --contains "$TARGET_SHA" --format "%(refname:short)"); do
     if [[ "$branch" =~ "release-" ]]; then
         IS_HOTFIX="1"
     fi
