@@ -50,6 +50,6 @@ jobs:
       if: steps.check-commit.outputs.is_hotfix != '1' || inputs.gh_env != 'dev'
       run: |
         echo "Deploying things."
-        echo {{ steps.check-commit.outputs.is_hotfix }}
-        echo {{ inputs.gh_env }}
+        echo ${{ steps.check-commit.outputs.is_hotfix }}
+        echo ${{ inputs.gh_env }}
 
