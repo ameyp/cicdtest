@@ -42,7 +42,7 @@ jobs:
       id: check-commit
       shell: bash
       run: |
-        echo "is_hotfix=$(scripts/release/is-hotfix.sh ${{ GITHUB_SHA }})" >> $GITHUB_OUTPUT
+        echo "is_hotfix=$(scripts/release/is-hotfix.sh ${GITHUB_SHA})" >> $GITHUB_OUTPUT
 
     - name: Deploy things
       if: steps.check-commit.outputs.is_hotfix == '1'
