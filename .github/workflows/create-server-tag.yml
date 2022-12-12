@@ -36,4 +36,4 @@ jobs:
     - name: Trigger deployment
       if: ${{ steps.determine_tag.outputs.tag_name != '' }}
       run: |
-        gh workflow run deploy-server.yml -f tag=${{ steps.determine_tag.outputs.tag_name }}
+        gh workflow run deploy-server.yml --ref ${{ steps.determine_tag.outputs.tag_name }}

@@ -1,13 +1,8 @@
 name: Deploy the server
-run-name: Deploy tag ${{ inputs.tag }}
+run-name: Deploy tag ${{ github.ref }}
 
 on:
   workflow_dispatch:
-    inputs:
-      tag:
-        description: 'The tag to be deployed'
-        required: true
-        type: string
 
 jobs:
   build-and-test:
