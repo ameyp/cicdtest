@@ -39,6 +39,10 @@ jobs:
         echo "Github: ${{ toJson(inputs) }}"
 
     - uses: actions/checkout@v3.1.0
+      with:
+        # Fetch history for all branches and tags
+        fetch-depth: 0
+
     - name: Check if commit is a hotfix
       id: check-commit
       shell: bash
