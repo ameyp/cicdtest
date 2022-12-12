@@ -1,5 +1,5 @@
 name: Deploy the server
-run-name: Deploy tag ${{ github.ref_name }}
+run-name: Deploy ${{ github.ref_name }}
 
 on:
   workflow_dispatch:
