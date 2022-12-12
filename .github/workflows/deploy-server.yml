@@ -5,19 +5,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-test:
-    name: B&T
-    uses: ./.github/workflows/build-and-test.yml
-    with:
-      # always run a full build and test on scheduled deployments;
-      # release branch deployments are fast-tracked with a minimal build.
-      do_all: ${{ github.event_name == 'schedule' }}
-      do_apple_ios: true
-      do_android: true
-      do_client: true
-      do_www_docker: true
-    secrets: inherit
-
   determine-hotfix:
     name: Determine whether the commit is a hotfix
     runs-on: ubuntu-latest
@@ -37,6 +24,19 @@ jobs:
         echo $REPO_ROOT
         echo $GITHUB_SHA
         echo "is_hotfix=$($REPO_ROOT/scripts/release/is-hotfix.sh ${GITHUB_SHA})" >> $GITHUB_OUTPUT
+
+  build-and-test:
+    name: B&T
+    uses: ./.github/workflows/build-and-test.yml
+    with:
+      # always run a full build and test on scheduled deployments;
+      # release branch deployments are fast-tracked with a minimal build.
+      do_all: needs.determine-hotfix.outputs.is_hotfix != '1'
+      do_apple_ios: true
+      do_android: true
+      do_client: true
+      do_www_docker: true
+    secrets: inherit
 
   deploy-dev:
     name: Deploy to dev
