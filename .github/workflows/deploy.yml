@@ -44,6 +44,8 @@ jobs:
       shell: bash
       run: |
         REPO_ROOT=$(git rev-parse --show-toplevel)
+        echo $REPO_ROOT
+        echo $GITHUB_SHA
         echo "is_hotfix=$($REPO_ROOT/scripts/release/is-hotfix.sh ${GITHUB_SHA})" >> $GITHUB_OUTPUT
 
     - name: Deploy things
