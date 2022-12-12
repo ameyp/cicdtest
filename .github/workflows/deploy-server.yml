@@ -70,6 +70,7 @@ jobs:
     name: Deploy to staging
     needs:
       - deploy-dev
+    if: always()
     secrets: inherit
     uses: ./.github/workflows/deploy.yml
     with:
@@ -83,6 +84,7 @@ jobs:
     name: Test staging
     needs:
       - deploy-staging
+    if: always()
     secrets: inherit
     uses: ./.github/workflows/post-deploy-tests.yml
     with:
@@ -94,6 +96,7 @@ jobs:
     name: Deploy to prod
     needs:
       - deploy-staging
+    if: always()
     secrets: inherit
     uses: ./.github/workflows/deploy.yml
     with:
@@ -107,6 +110,7 @@ jobs:
     name: Test prod
     needs:
       - deploy-prod
+    if: always()
     secrets: inherit
     uses: ./.github/workflows/post-deploy-tests.yml
     with:
