@@ -38,6 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Dump Inputs
+      if: ${{ !inputs.is_hotfix || !inputs.gh_env == 'dev'  }}
       shell: bash
       run: |
         echo "Github: ${{ toJson(inputs) }}"
