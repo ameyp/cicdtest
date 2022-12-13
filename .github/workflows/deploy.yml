@@ -23,6 +23,10 @@ on:
       deployment_id:
         required: false
         type: string
+      is_hotfix:
+        required: false
+        type: boolean
+        default: false
 
 env:
    PYTHON_VERSION: 3.8
@@ -39,6 +43,7 @@ jobs:
         echo "Github: ${{ toJson(inputs) }}"
 
     - name: Deploy things
+      if: ${{ !inputs.is_hotfix || !inputs.gh_env == 'dev'  }}
       run: |
         echo "Deploying things."
 

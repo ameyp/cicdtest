@@ -30,6 +30,11 @@ on:
         - none
         default: none
 
+      is_hotfix:
+        required: false
+        type: boolean
+        default: false
+
   # workflow triggered by another workflow
   workflow_call:
     # inputs should be the same as above.
@@ -43,6 +48,10 @@ on:
       run_e2e:
         required: true
         type: string
+      is_hotfix:
+        required: false
+        type: boolean
+        default: false
 
 env:
    PYTHON_VERSION: 3.8
@@ -60,5 +69,6 @@ jobs:
         echo "Github: ${{ toJson(inputs) }}"
 
     - name: Test
+      if: ${{ !inputs.is_hotfix || !inputs.gh_env == 'dev'  }}
       run: |
         exit 1
