@@ -52,7 +52,6 @@ jobs:
   dump_inputs:
     name: "Test"
     runs-on: ubuntu-latest
-    continue-on-error: true
     steps:
     - name: Dump Inputs
       shell: bash
