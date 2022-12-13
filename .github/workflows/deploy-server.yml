@@ -68,7 +68,7 @@ jobs:
     name: Deploy to staging
     needs:
       - deploy-dev
-    if: always()
+    if: always() && ${{ needs.deploy-dev.status == 'success' }}
     concurrency:
       group: deploy-staging
       cancel-in-progress: true
@@ -82,7 +82,7 @@ jobs:
     name: Test staging
     needs:
       - deploy-staging
-    if: always()
+    if: always() && ${{ needs.deploy-staging.status == 'success' }}
     secrets: inherit
     uses: ./.github/workflows/post-deploy-tests.yml
     with:
@@ -94,7 +94,7 @@ jobs:
     name: Deploy to prod
     needs:
       - deploy-staging
-    if: always()
+    if: always() && ${{ needs.deploy-staging.status == 'success' }}
     concurrency:
       group: deploy-prod
       cancel-in-progress: true
@@ -108,7 +108,7 @@ jobs:
     name: Test prod
     needs:
       - deploy-prod
-    if: always()
+    if: always() && ${{ needs.deploy-prod.status == 'success' }}
     secrets: inherit
     uses: ./.github/workflows/post-deploy-tests.yml
     with:
