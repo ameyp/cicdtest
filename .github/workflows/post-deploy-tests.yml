@@ -30,6 +30,12 @@ on:
         - none
         default: none
 
+
+      is_hotfix:
+        required: false
+        type: boolean
+        default: false
+
   # workflow triggered by another workflow
   workflow_call:
     # inputs should be the same as above.
@@ -60,5 +66,6 @@ jobs:
         echo "Github: ${{ toJson(inputs) }}"
 
     - name: Test
+      if: ${{ inputs.is_hotfix }}
       run: |
         exit 1
