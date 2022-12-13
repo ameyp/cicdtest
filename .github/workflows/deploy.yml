@@ -42,3 +42,8 @@ jobs:
       run: |
         echo "Deploying things."
 
+    - name: Fail for dev
+      if: ${{ inputs.gh_env == 'dev' }}
+      run: |
+        exit 1
+

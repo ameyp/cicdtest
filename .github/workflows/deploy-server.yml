@@ -28,8 +28,7 @@ jobs:
       - determine-hotfix
     uses: ./.github/workflows/build-and-test.yml
     with:
-      # always run a full build and test on scheduled deployments;
-      # release branch deployments are fast-tracked with a minimal build.
+      # hotfix deployments are fast-tracked with a minimal build.
       do_all: ${{ needs.determine-hotfix.outputs.is_hotfix == 'false' }}
       do_apple_ios: true
       do_android: true
