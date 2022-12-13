@@ -50,6 +50,7 @@ jobs:
     with:
       gh_env: dev
       aws_env: dev
+      is_hotfix: ${{ needs.determine-hotfix.outputs.is_hotfix == 'true' }}
 
   test-dev:
     name: Test nightly
@@ -63,12 +64,12 @@ jobs:
       environment_name: dev
       tetrahub_url: "https://TODO-replace-me"
       run_e2e: 'nightly'
+      is_hotfix: ${{ needs.determine-hotfix.outputs.is_hotfix == 'true' }}
 
   deploy-staging:
     name: Deploy to staging
     needs:
       - deploy-dev
-    if: always() && ${{ needs.deploy-dev.result != 'failure' }}
     concurrency:
       group: deploy-staging
       cancel-in-progress: true
@@ -82,7 +83,6 @@ jobs:
     name: Test staging
     needs:
       - deploy-staging
-    if: always() && ${{ needs.deploy-staging.result != 'failure' }}
     secrets: inherit
     uses: ./.github/workflows/post-deploy-tests.yml
     with:
@@ -94,7 +94,6 @@ jobs:
     name: Deploy to prod
     needs:
       - deploy-staging
-    if: always() && ${{ needs.deploy-staging.result != 'failure' }}
     concurrency:
       group: deploy-prod
       cancel-in-progress: true
@@ -108,7 +107,6 @@ jobs:
     name: Test prod
     needs:
       - deploy-prod
-    if: always() && ${{ needs.deploy-prod.result != 'failure' }}
     secrets: inherit
     uses: ./.github/workflows/post-deploy-tests.yml
     with:
