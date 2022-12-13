@@ -20,10 +20,7 @@ jobs:
       id: check-commit
       shell: bash
       run: |
-        REPO_ROOT=$(git rev-parse --show-toplevel)
-        echo $REPO_ROOT
-        echo $GITHUB_SHA
-        echo "is_hotfix=$($REPO_ROOT/scripts/release/is-hotfix.sh ${GITHUB_SHA})" >> $GITHUB_OUTPUT
+        echo "is_hotfix=$(scripts/release/is-hotfix.sh ${GITHUB_SHA})" >> $GITHUB_OUTPUT
 
   build-and-test:
     name: B&T
