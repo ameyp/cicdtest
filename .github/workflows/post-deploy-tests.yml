@@ -69,6 +69,6 @@ jobs:
         echo "Github: ${{ toJson(inputs) }}"
 
     - name: Test
-      if: ${{ !inputs.is_hotfix }}
+      if: ${{ !inputs.is_hotfix || !inputs.gh_env == 'dev'  }}
       run: |
         exit 1
