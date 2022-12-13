@@ -41,7 +41,6 @@ jobs:
     needs:
       - build-and-test
       - determine-hotfix
-    if: ${{ needs.determine-hotfix.outputs.is_hotfix == 'false' }}
     concurrency:
       group: deploy-dev
       cancel-in-progress: true
@@ -57,7 +56,6 @@ jobs:
     needs:
       - deploy-dev
       - determine-hotfix
-    if: ${{ needs.determine-hotfix.outputs.is_hotfix == 'false' }}
     secrets: inherit
     uses: ./.github/workflows/post-deploy-tests.yml
     with:
