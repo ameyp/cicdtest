@@ -30,7 +30,6 @@ on:
         - none
         default: none
 
-
       is_hotfix:
         required: false
         type: boolean
@@ -49,6 +48,10 @@ on:
       run_e2e:
         required: true
         type: string
+      is_hotfix:
+        required: false
+        type: boolean
+        default: false
 
 env:
    PYTHON_VERSION: 3.8
