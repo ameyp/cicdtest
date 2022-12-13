@@ -54,9 +54,6 @@ jobs:
     with:
       gh_env: dev
       aws_env: dev
-    concurrency:
-      group: deploy-dev
-      cancel-in-progress: true
 
   test-dev:
     name: Test nightly
@@ -84,9 +81,6 @@ jobs:
     with:
       gh_env: staging
       aws_env: staging
-    concurrency:
-      group: deploy-staging
-      cancel-in-progress: true
 
   test-staging:
     name: Test staging
@@ -113,9 +107,6 @@ jobs:
     with:
       gh_env: prod
       aws_env: prod
-    concurrency:
-      group: deploy-prod
-      cancel-in-progress: true
 
   test-prod:
     name: Test prod
