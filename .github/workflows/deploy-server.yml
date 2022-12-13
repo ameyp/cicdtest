@@ -33,7 +33,7 @@ jobs:
     with:
       # always run a full build and test on scheduled deployments;
       # release branch deployments are fast-tracked with a minimal build.
-      do_all: ${{ needs.determine-hotfix.outputs.is_hotfix }}
+      do_all: ${{ needs.determine-hotfix.outputs.is_hotfix == 'false' }}
       do_apple_ios: true
       do_android: true
       do_client: true
@@ -45,7 +45,10 @@ jobs:
     needs:
       - build-and-test
       - determine-hotfix
-    if: ${{ needs.determine-hotfix.outputs.is_hotfix }}
+    if: ${{ needs.determine-hotfix.outputs.is_hotfix == 'false' }}
+    concurrency:
+      group: deploy-dev
+      cancel-in-progress: true
     secrets: inherit
     uses: ./.github/workflows/deploy.yml
     with:
@@ -60,7 +63,7 @@ jobs:
     needs:
       - deploy-dev
       - determine-hotfix
-    if: ${{ needs.determine-hotfix.outputs.is_hotfix }}
+    if: ${{ needs.determine-hotfix.outputs.is_hotfix == 'false' }}
     secrets: inherit
     uses: ./.github/workflows/post-deploy-tests.yml
     with:
@@ -73,6 +76,9 @@ jobs:
     needs:
       - deploy-dev
     if: always()
+    concurrency:
+      group: deploy-staging
+      cancel-in-progress: true
     secrets: inherit
     uses: ./.github/workflows/deploy.yml
     with:
@@ -99,6 +105,9 @@ jobs:
     needs:
       - deploy-staging
     if: always()
+    concurrency:
+      group: deploy-prod
+      cancel-in-progress: true
     secrets: inherit
     uses: ./.github/workflows/deploy.yml
     with:
