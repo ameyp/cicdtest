@@ -9,7 +9,7 @@ jobs:
     name: Determine whether the commit is a hotfix
     runs-on: ubuntu-latest
     outputs:
-      is_hotfix: ${{ steps.check-commit.outputs.is_hotfix }}
+      is_hotfix: ${{ steps.check-commit.outputs.is_hotfix == '1' }}
     steps:
     - uses: actions/checkout@v3.1.0
       with:
@@ -31,7 +31,7 @@ jobs:
     with:
       # always run a full build and test on scheduled deployments;
       # release branch deployments are fast-tracked with a minimal build.
-      do_all: (needs.determine-hotfix.outputs.is_hotfix != '1')
+      do_all: needs.determine-hotfix.outputs.is_hotfix
       do_apple_ios: true
       do_android: true
       do_client: true
@@ -43,7 +43,7 @@ jobs:
     needs:
       - build-and-test
       - determine-hotfix
-    if: needs.determine-hotfix.outputs.is_hotfix != '1'
+    if: needs.determine-hotfix.outputs.is_hotfix
     secrets: inherit
     uses: ./.github/workflows/deploy.yml
     with:
@@ -58,7 +58,7 @@ jobs:
     needs:
       - deploy-dev
       - determine-hotfix
-    if: needs.determine-hotfix.outputs.is_hotfix != '1'
+    if: needs.determine-hotfix.outputs.is_hotfix
     secrets: inherit
     uses: ./.github/workflows/post-deploy-tests.yml
     with:
