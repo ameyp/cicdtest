@@ -58,7 +58,7 @@ env:
    NODE_VERSION: 16
 
 jobs:
-  dump_inputs:
+  run_tests:
     name: "Test"
     runs-on: ubuntu-latest
     steps:
@@ -76,7 +76,7 @@ jobs:
   create_issue_for_failure:
     if: ${{ failure() }}
     name: Create Issue for Failure
-    needs: [deploy]
+    needs: [run_tests]
     runs-on: ubuntu-latest
     permissions:
       contents: read
