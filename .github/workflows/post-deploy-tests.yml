@@ -35,6 +35,11 @@ on:
         type: boolean
         default: false
 
+      create_issue_on_failure:
+        required: false
+        type: boolean
+        default: false
+
   # workflow triggered by another workflow
   workflow_call:
     # inputs should be the same as above.
@@ -49,6 +54,10 @@ on:
         required: true
         type: string
       is_hotfix:
+        required: false
+        type: boolean
+        default: false
+      create_issue_on_failure:
         required: false
         type: boolean
         default: false
@@ -74,7 +83,7 @@ jobs:
 
 
   create_issue_for_failure:
-    if: ${{ failure() }}
+    if: ${{ failure() && create_issue_on_failure }}
     name: Create Issue for Failure
     needs: [run_tests]
     runs-on: ubuntu-latest

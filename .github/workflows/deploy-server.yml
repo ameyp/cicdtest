@@ -50,6 +50,7 @@ jobs:
       gh_env: dev
       aws_env: dev
       is_hotfix: ${{ needs.determine-hotfix.outputs.is_hotfix == 'true' }}
+      create_issue_on_failure: true
 
   test-dev:
     name: Test nightly
@@ -63,6 +64,7 @@ jobs:
       tetrahub_url: "https://TODO-replace-me"
       run_e2e: 'nightly'
       is_hotfix: ${{ needs.determine-hotfix.outputs.is_hotfix == 'true' }}
+      create_issue_on_failure: true
 
   deploy-staging:
     name: Deploy to staging
