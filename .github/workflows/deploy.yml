@@ -56,7 +56,7 @@ jobs:
       run: exit 1
 
   create_issue_for_failure:
-    if: ${{ failure() && create_issue_on_failure }}
+    if: ${{ failure() && inputs.create_issue_on_failure }}
     name: Create Issue for Failure
     needs: [deploy]
     runs-on: ubuntu-latest
