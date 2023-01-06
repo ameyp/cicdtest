@@ -37,7 +37,7 @@ jobs:
     secrets: inherit
 
   create_issue_for_failure:
-    if: ${{ failure() && inputs.create_issue_on_failure }}
+    if: ${{ failure() }}
     name: Create Issue for Failure
     needs: [build-and-test]
     runs-on: ubuntu-latest
