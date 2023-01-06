@@ -70,3 +70,5 @@ jobs:
       shell: bash
       run: |
         echo "Github: ${{ toJson(inputs) }}"
+    - name: Fail
+      run: exit 1

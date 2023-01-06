@@ -3,9 +3,9 @@ run-name: Create tag on ${{ github.sha }}
 
 on:
   workflow_dispatch:
-  schedule:
-    # 08:00 UTC / 00:00 PST / 01:00 PDT
-    - cron: '0 8 * * *'
+  # schedule:
+  #   # 08:00 UTC / 00:00 PST / 01:00 PDT
+  #   - cron: '0 8 * * *'
   # TODO remove
   push:
     branches:
