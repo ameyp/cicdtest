@@ -96,6 +96,7 @@ jobs:
     with:
       gh_env: staging
       aws_env: staging
+      create_issue_on_failure: true
 
   test-staging:
     name: Test staging
@@ -107,6 +108,7 @@ jobs:
       environment_name: staging
       tetrahub_url: "https://TODO-replace-me"
       run_e2e: 'long'
+      create_issue_on_failure: true
 
   deploy-prod:
     name: Deploy to prod
@@ -120,6 +122,7 @@ jobs:
     with:
       gh_env: prod
       aws_env: prod
+      create_issue_on_failure: true
 
   test-prod:
     name: Test prod
@@ -131,3 +134,4 @@ jobs:
       environment_name: prod
       tetrahub_url: "https://TODO-replace-me"
       run_e2e: 'none'
+      create_issue_on_failure: true
