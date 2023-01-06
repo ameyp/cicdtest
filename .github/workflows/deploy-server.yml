@@ -55,7 +55,6 @@ jobs:
         filename: .github/templates/deployment-issue.md
 
   deploy-dev:
-    if: ${{ failure() }}
     name: Deploy to dev
     needs:
       - build-and-test
