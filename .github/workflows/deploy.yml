@@ -55,21 +55,21 @@ jobs:
     - name: Temporary failure
       run: exit 1
 
-  # create_issue_for_failure:
-  #   if: ${{ failure() && inputs.create_issue_on_failure }}
-  #   name: Create Issue for Failure
-  #   needs: [deploy]
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     contents: read
-  #     issues: write
+  create_issue_for_failure:
+    if: ${{ failure() && inputs.create_issue_on_failure }}
+    name: Create Issue for Failure
+    needs: [deploy]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
 
-  #   steps:
-  #   - uses: actions/checkout@v3.1.0
-  #   - uses: JasonEtco/create-an-issue@v2
-  #     env:
-  #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #       RUN_ID: ${{ github.run_id }}
-  #     with:
-  #       filename: .github/templates/deployment-issue.md
+    steps:
+    - uses: actions/checkout@v3.1.0
+    - uses: JasonEtco/create-an-issue@v2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        RUN_ID: ${{ github.run_id }}
+      with:
+        filename: .github/templates/deployment-issue.md
 
