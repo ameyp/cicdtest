@@ -40,6 +40,8 @@ jobs:
   deploy:
     name: Deploy job
     runs-on: ubuntu-latest
+    environment:
+      name: ${{ inputs.gh_env }}
     steps:
     - name: Dump Inputs
       if: ${{ !inputs.is_hotfix || !inputs.gh_env == 'dev'  }}
